@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from 'react';
 import ContactRow from "./ContactRow";
 import { useEffect } from "react";
@@ -9,32 +8,11 @@ const dummyContacts = [
     { id: 3, name: "BB-8", phone: "888-888-8888", email: "bb8@droids.com" },
   ];
 
-// 1. COMPONENT - creates area for contacts
-// ContactList (parent) -> ContactRow (child)
-// Where is props created?
-export default function ContactList() {
+  // why?
+export default function ContactList( { contacts, setSelectedContactId }) {
 
-    // properties ('props') = contacts
-    // right now, contacts is set as the default
-    const [contacts, setContacts] = useState(dummyContacts);
-    // setContacts is a function to pass something in
+    const [name, setName] = useState('');
 
-    useEffect(() => {
-        async function fetchContacts() {
-            try {
-                let response = await fetch('https://fsa-jsonplaceholder-69b5c48f1259.herokuapp.com/users');
-                let data = await response.json();
-
-                // update state of contacts to be data fetched from API
-                setContacts(data);
-            } catch (error) {
-                console.log('error!');
-            }
-        }
-        fetchContacts();
-    },[])
-console.log('state', contacts);
-    // console.log('dummy contacts: ', dummyContacts);
 
     return (
             <table>
@@ -51,7 +29,11 @@ console.log('state', contacts);
                     </tr>
                     {
                        contacts.map((contact) => {
-                        return <ContactRow key={contact.id} contact={contact} />;
+                        return <ContactRow 
+                            key={contact.id} 
+                            contact={contact}
+                            setSelectedContactId={setSelectedContactId} 
+                            />;
                        }) 
                     }
                 </tbody>
